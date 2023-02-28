@@ -62,8 +62,15 @@ mapstatematrix<-groupingAsMatrix(mapstatelist)[fullorder,fullorder] # map state 
 
 # Coancestry matrix
 datamatrix<-dataraw[fullorder,fullorder] 
-class(datamatrix)
 datamatrix
+
+ids_list <-read.csv (file="ids_colours_list.csv",header=FALSE,sep = ",",check.names = FALSE)
+ids_list
+
+colnames(ids_list)
+
+ids_list %>% 
+  mutate(alias = deframe(df2)[cliente])
 
 # Save coancestry matrix with IND ids
 write.csv(datamatrix, "datamatrix.csv")
