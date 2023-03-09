@@ -1,0 +1,4 @@
+##The core gene alignment was generated using panaroo v. 1.3.2
+##The analysis was performed using the 1012 HpGP genomes and 255 reference genomes, in total 1267 gff files
+
+panaroo -i *.gff -o ./panaroo_id90_1267_core/ --clean-mode strict --threshold 0.90 -a core --core_threshold 0.95 --len_dif_percent 0.75 -t 20
