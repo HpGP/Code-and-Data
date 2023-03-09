@@ -1,0 +1,37 @@
+##In R, using package BactDating v. 1.1.1
+
+devtools::install_github("xavierdidelot/BactDating")
+#help(package='BactDating')
+
+library(BactDating)
+
+##Load CFML data (see "PhyML_ClonalFrameML.txt" for how we generated this)
+
+tree <- loadCFML("US-clone-panaroo_core_alignment_CFML")
+
+
+##Get the order of tip labels in the tree to be able to order the collection dates
+
+write.table(tree$tip.label, file='tip_labels_CFML.txt', sep = '\t', quote = F)
+
+
+##Read the collection dates in the order of the tip labels
+
+dates <- c(1999, 2017, 1999, 1999, 1999, 1997, 2017, NA, 2017, 1989, 1999, 1999, 1999, 2018, 2018, 1988, 1989)
+
+
+##Perform the BactDating analysis with 10,000 iterations, based on the collection dates and estimated clock rate.
+##Estimated clock rate: 1.38e-5 per site per year * 1667867 sites (26695 reference genome length) = 23.01656
+
+res <- bactdate(tree, dates, initMu = 23.01656, updateMu=FALSE, nbIts=1e5)
+
+
+##Plot output statistics 
+pdf('Plot_BactDating_traces.pdf', width = 14, height = 10)
+plot(res, 'trace')
+dev.off()
+
+##Plot dated tree including confidence intervals for node age estimates
+pdf('Plot_BactDating_tree_w_CI.pdf', width = 20, height = 10)
+plot(res, 'treeCI')
+dev.off()
