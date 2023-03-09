@@ -1,0 +1,6 @@
+##Annotation of the 255 reference genome dataset was performed using prokka v. 1.14.6
+##The primary annotation database "Hp26695_curated_for_HpGP.faa" can be found within this "Data_preparation" directory
+
+##For each $strain's genomic fasta file
+
+prokka --outdir $strain'_prokka' --force --rawproduct --prefix $strain --locustag $strain --genus Helicobacter --species pylori --strain $strain --kingdom Bacteria --gram neg --usegenus --proteins Hp26695_curated_for_HpGP.faa --cpus 0 --evalue 1e-24 $strain'.fasta'
