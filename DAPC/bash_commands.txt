@@ -1,0 +1,7 @@
+snp-sites Panaroo_1267_core_gene_alignment.aln > pylori_snps.fasta
+
+Rscript kmeans_100replicates.r
+
+Rscript DAPC_6g.r --vanilla --no-save
+
+Rscript DAPC_71g.r --vanilla --no-save
