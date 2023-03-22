@@ -1,0 +1,25 @@
+## To create a training file using prodigal v2.6.3
+
+prodigal -i ref.cds.fasta -t prodigal.tnf
+
+# where ref.cds.fasta is a file containing a collection of coding sequences in a multifasta format
+
+## Create a whole genome MLST schema using the module CreateSchema of chewBBACA v2.8.5
+
+chewBBACA CreateSchema -i genome.seq.path -o wgMLST_scheama --ptf prodigal.tnf
+
+## Run the chewBBACA's v2.8.5 AlleleCall module for allele calling 
+
+chewBBACA AlleleCall -i genome.seq.path -g schema_seed -o wgMLST_alleles --ptf prodigal.tnf
+
+## To remove paralogs using chewBBACA's v2.8.5 RemoveGenes module
+
+chewBBACA RemoveGenes -i wgMLST_alleles/results_alleles.tsv -g wgMLST_alleles/RepeatedLoci.txt -o clean_alleles.tsv
+
+## Run chewBBACA's v2.8.5 ExtractCgMLST module to create a coregenome MLST schema based on alleles present in 95% of strains
+
+chewBBACA ExtractCgMLST -i wgMLST_alleles/clean_alleles.tsv -o cgMLST --t 0.95
+
+## Use grapetree v1.5.0 to compute pairwise distances based on shared identical alleles
+
+grapetree --profile cgMLST.tsv --method distance --wgMLST --missing 0 > cgMLST.distances.txt
